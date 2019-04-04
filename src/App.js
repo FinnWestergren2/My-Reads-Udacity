@@ -1,5 +1,4 @@
 import React from 'react'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchPage from './SearchPage'
 import ListPage from './ListPage'
@@ -16,12 +15,18 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    console.log(BooksAPI.getAll());
+    const shelves = [
+      {value:"currentlyReading", title:"Currently Reading"},
+      {value:"wantToRead", title:"Want to Read"},
+      {value:"read",  title:"Read"},
+      {value:"none", title:"None"}
+  ];
     return (
       <div className="app">
         {this.state.showSearchPage ?
           <SearchPage/> : 
-          <ListPage/>
+          <ListPage
+            shelves={shelves}/>
         }
       </div>
     );

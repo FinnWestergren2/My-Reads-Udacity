@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const Book = (props) => {
-    const { title, author, coverImage } = props
+    const { bookDTO, shelves } = props;
+    const { author, coverImage, title, shelf} = bookDTO;
+    const [ currentShelf, setCurrentShelf ] = useState(shelf);
     return (
         <div className="book">
             <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: coverImage }}></div>
                 <div className="book-shelf-changer">
-                <select>
+                <select value={currentShelf} onChange={(e) => setCurrentShelf(e.value)}>
                     <option value="move" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
+                    {shelves.map((s)=>
+                    <option 
+                        disabled={s.value===currentShelf}
+                        key={s.value} 
+                        value={s.value}>
+                        {s.title}
+                    </option>)}
                 </select>
                 </div>
             </div>
