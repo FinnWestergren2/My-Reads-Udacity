@@ -8,7 +8,6 @@ const ListPage = (props) => {
 
   useEffect(() =>{
     BooksAPI.getAll().then(data => {
-      console.log('fetched');
       setBooks(data);
     });
   }, []);

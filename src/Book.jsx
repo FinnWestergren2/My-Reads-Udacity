@@ -2,12 +2,12 @@ import React from 'react';
 
 const Book = (props) => {
     const { bookData, shelves, changeShelf } = props;
-    const { author, coverImage, title, shelf} = bookData;
+    const { author, imageLinks, title, shelf} = bookData;
 
     return (
         <div className="book">
             <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: coverImage }}></div>
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${imageLinks.thumbnail})` }}></div>
                 <div className="book-shelf-changer">
                 <select value={shelf} onChange={(e) => changeShelf(e.target.value)}>
                     <option value="move" disabled>Move to...</option>
