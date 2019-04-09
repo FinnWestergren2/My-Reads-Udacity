@@ -1,20 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
+import * as BooksAPI from './BooksAPI'
 
 const Book = (props) => {
-    const { bookDTO, shelves } = props;
-    const { author, coverImage, title, shelf} = bookDTO;
-    const [ currentShelf, setCurrentShelf ] = useState(shelf);
+    const { bookData, shelves, changeShelf } = props;
+    const { author, coverImage, title, shelf} = bookData;
+
     return (
         <div className="book">
             <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: coverImage }}></div>
                 <div className="book-shelf-changer">
-                <select value={currentShelf} onChange={(e) => setCurrentShelf(e.value)}>
+                <select value={shelf} onChange={(e) => changeShelf(e.target.value)}>
                     <option value="move" disabled>Move to...</option>
                     {shelves.map((s)=>
                     <option 
-                        disabled={s.value===currentShelf}
-                        key={s.value} 
+                        disabled={s.value===shelf}
+                        key={s.value}
                         value={s.value}>
                         {s.title}
                     </option>)}

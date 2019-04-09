@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Book from './Book';
-import * as BooksAPI from './BooksAPI'
 
 
 const BookShelf = (props) => {
-    const { title, value, shelves } = props;
-    const [books, setBooks] = useState([]);
-
-    useEffect(() => {
-        populateShelf(value).then(data => setBooks(data));
-    },[value]);
+    const { title, update, books, shelves} = props;
     
     return (
         <div className="bookshelf">
@@ -20,21 +14,15 @@ const BookShelf = (props) => {
                         {books.map((book) =>
                         <Book
                             key={book.id}
-                            bookDTO={book}
-                            shelves={shelves}/>
+                            bookData={book}
+                            shelves={shelves}
+                            changeShelf={(targetShelf) => update(book, targetShelf)}/>
                         )}
                     </li>
                 </ol>
             </div>
         </div>
     );
-}
-
-async function populateShelf(value, setFetched) {
-    const data = await BooksAPI.getAll();
-    return data.filter((b)=>{
-        return b.shelf === value
-    });
 }
 
 export default BookShelf;
