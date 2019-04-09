@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Book from './Book';
 
 
 const BookShelf = (props) => {
-    const { title, update, books, shelves} = props;
-    
+    const {title, update, books, shelves} = props;
     return (
         <div className="bookshelf">
             <h2 className="bookshelf-title">{title}</h2>

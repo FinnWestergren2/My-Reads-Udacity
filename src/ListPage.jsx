@@ -8,9 +8,10 @@ const ListPage = (props) => {
 
   useEffect(() =>{
     BooksAPI.getAll().then(data => {
+      console.log('fetched');
       setBooks(data);
     });
-  });
+  }, []);
 
   return (
     <div className="list-books">
@@ -20,16 +21,11 @@ const ListPage = (props) => {
       <div className="list-books-content">
         {shelves.map((s) =>        
           s.value !== 'none' && <BookShelf 
-            key={s.value} 
+            key={s.value}
             title={s.title}
-            books={books.filter(b => {return b.shelf === s.value;})}
+            books={books.filter((b) => {return b.shelf === s.value})}
             shelves={shelves}
-            update={(book, target) => {
-              BooksAPI.update(book, target);
-              BooksAPI.getAll().then(data => {
-                setBooks(data);
-              });
-            }}/>
+            update={(book, target) => updateList(book, target, setBooks)}/>
         )}
       </div>
       <div className="open-search">
@@ -40,5 +36,11 @@ const ListPage = (props) => {
   );
 }
 
+const updateList = (book, target, setBooks) => {
+  BooksAPI.update(book, target).then(() =>
+  BooksAPI.getAll().then(data => {
+    setBooks(data);
+  }));
+}
 
 export default ListPage;
