@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import BookShelf from './BookShelf';
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI';
+import { Link } from 'react-router-dom';
+
 
 const ListPage = (props) => {
   const { shelves } = props;
   const [books, setBooks] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     BooksAPI.getAll().then(data => {
       setBooks(data);
     });
@@ -29,7 +31,7 @@ const ListPage = (props) => {
       </div>
       <div className="open-search">
         {/* TODO use routing instead */}
-        <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button> 
+        <Link className="link" to="search"/>
       </div>
     </div>
   );
