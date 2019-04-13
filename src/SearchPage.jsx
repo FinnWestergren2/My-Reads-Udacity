@@ -11,8 +11,8 @@ const SearchPage = (props) => {
     useEffect(() => {
       BooksAPI.search(query).then(data => {
         if (data && !data.hasOwnProperty('error')){
-            setBooks(data.filter((b) => {
-                return !b.hasOwnProperty('shelf');
+            setBooks(data.filter(b => {
+                return b.hasOwnProperty('imageLinks') && b.imageLinks.hasOwnProperty('thumbnail') && b.hasOwnProperty('authors');
             }));
         }
         else setBooks([]);
