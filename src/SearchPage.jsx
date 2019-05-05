@@ -9,6 +9,7 @@ const SearchPage = (props) => {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
+      if(query)  
       BooksAPI.search(query).then(data => {
         if (data && !data.hasOwnProperty('error')){
             setBooks(data.filter(b => {
@@ -17,6 +18,7 @@ const SearchPage = (props) => {
         }
         else setBooks([]);
       });
+      else  setBooks([]);
     }, [query]);
 
     return (
