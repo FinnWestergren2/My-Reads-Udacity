@@ -4,22 +4,28 @@ import * as BooksAPI from './BooksAPI';
 import { Link } from 'react-router-dom';
 
 const SearchPage = (props) => {
-    const { shelves } = props;
+    const { shelves, books, updateList} = props;
     const [query, setQuery] = useState('');
-    const [books, setBooks] = useState([]);
+    const [resultBooks, setResultBooks] = useState([]);
 
     useEffect(() => {
-      if(query)  
-      BooksAPI.search(query).then(data => {
-        if (data && !data.hasOwnProperty('error')){
-            setBooks(data.filter(b => {
-                return b.hasOwnProperty('imageLinks') && b.imageLinks.hasOwnProperty('thumbnail') && b.hasOwnProperty('authors');
-            }));
-        }
-        else setBooks([]);
-      });
-      else  setBooks([]);
-    }, [query]);
+        if(query && query !== ''){
+            BooksAPI.search(query).then(data => {
+                if (data && !data.hasOwnProperty('error')){
+                    setResultBooks(data.filter(b => {
+                        books.forEach(book => {
+                            if(book.id === b.id){
+                                b.shelf = book.shelf;
+                            }
+                        })
+                        return (b.hasOwnProperty('imageLinks') 
+                        && b.imageLinks.hasOwnProperty('thumbnail') 
+                        && b.hasOwnProperty('authors'));
+                    }));
+                } else setResultBooks([]);
+            });
+        } else setResultBooks([]);
+    }, [query, books]);
 
     return (
     <div className="search-books">
@@ -35,9 +41,11 @@ const SearchPage = (props) => {
         </div>
         <div className="search-books-results">
             <BookShelf
-                books={books}
+                books={resultBooks}
                 shelves={shelves}
-                update={(book, target) => BooksAPI.update(book, target)}/>
+                update={(book, target) => {
+                    updateList(book, target); 
+                    setQuery(query);}}/>
         </div>
     </div>
     );
