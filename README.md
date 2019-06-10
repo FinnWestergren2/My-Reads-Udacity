@@ -2,9 +2,12 @@ Welcome to the "My Reads" application!
 
 - Setup -
 
-To install, navigate to the parent directory (My-Reads) in a terminal or command line and 
-# run "npm install", then
+To install, navigate to the root directory of the project in a terminal or command line and ...
+# run "npm install"
+    this will install necessary packages
 # run "npm start" 
+    this will start the application
+
 (I'm assuming you have npm installed, but if you dont... https://www.npmjs.com/)
 
 A browser window should open automatically, and the application should load just fine.
