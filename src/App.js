@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import SearchPage from './SearchPage';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import ListPage from './ListPage';
 
@@ -17,11 +17,18 @@ const BooksApp = () => {
 
   
   const updateList = (book, target) => {
+    const updatedBook = Object.keys(books).filter(b => books[b].id === book.id)[0];
+    if(updatedBook){
+      books[updatedBook].shelf = target;
+      setBooks([...books].sort(pageCountSort)); // optimistic update
+    }
     BooksAPI.update(book, target).then(() =>
     BooksAPI.getAll().then(data => {
-      setBooks(data);
+      setBooks(data.sort(pageCountSort));
     }));
   }
+
+  const pageCountSort = (a, b) => a.pageCount -b.pageCount; // I had to sort by something to make optimistic update look nice
 
 
   const shelves = [
@@ -32,6 +39,7 @@ const BooksApp = () => {
 
   return (
     <div className="app">
+    <Switch>
       <Route exact path="/search" render={() => 
         <SearchPage 
           shelves={shelves}
@@ -42,6 +50,7 @@ const BooksApp = () => {
           shelves={shelves}
           books={books}
           updateList={updateList}/>}/>
+      </Switch>
     </div>
   );
 }
